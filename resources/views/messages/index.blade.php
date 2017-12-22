@@ -18,14 +18,20 @@
                 <tr>
                     <td>{{ $message->id}}</td>
                     <td>
-                        <a href="{{route('messages.show', $message->id) }}">
+                        <a href="{{route('mensajes.show', $message->id) }}">
                         {{ $message->nombre}}
                         </a>
                     </td>
                     <td>{{ $message->email}}</td>
                     <td>{{ $message->mensaje}}</td>
                     <td>
+                        <a href="{{route('mensajes.edit', $message->id) }}">
                         Editar
+                        <form style ="display:inline" method="POST" action="{{route('mensajes.destroy', $message->id)}}">
+                            {!! csrf_field() !!}
+                            {!! method_field('DELETE') !!}
+                            <button type="submit">Eliminar </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
