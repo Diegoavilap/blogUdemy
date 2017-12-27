@@ -15,14 +15,13 @@
 Route::get('/', ['as'=>'home', 'uses' => 'PagesController@home'])/*->middleware('example')*/;
 
 
-Route::get('contacto', ['as'=>'contacto', 'uses' => 'PagesController@contact']);
-
 
 Route::get('saludos/{nombre?}', ['as'=>'saludos', 'uses' => 'PagesController@saludo'])->where('nombre','[A-Za-z]+');
 
-Route::post('contacto', 'PagesController@mensaje');
 
 Route::resource('mensajes', 'MessagesController');
+
+
 
 // Route::get('mensajes',['as' => 'messages.index', 'uses' => 'MessagesController@index']);
 // Route::get('mensajes/create',['as' => 'messages.create', 'uses' => 'MessagesController@create']);
@@ -31,3 +30,26 @@ Route::resource('mensajes', 'MessagesController');
 // Route::get('mensajes/{id}/edit',['as' => 'messages.edit', 'uses' => 'MessagesController@edit']);
 // Route::put('mensajes/{id}',['as' => 'messages.update', 'uses' => 'MessagesController@update']);
 // Route::delete('mensajes/{id}',['as' => 'messages.destroy', 'uses' => 'MessagesController@destroy']);
+
+
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
