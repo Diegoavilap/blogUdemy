@@ -20,7 +20,7 @@ Route::get('saludos/{nombre?}', ['as'=>'saludos', 'uses' => 'PagesController@sal
 
 
 Route::resource('mensajes', 'MessagesController');
-
+Route::resource('usuarios','UsersController');
 
 
 // Route::get('mensajes',['as' => 'messages.index', 'uses' => 'MessagesController@index']);
@@ -53,3 +53,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+
+
+ /* App\User::create([
+    'name' => 'Tata',
+    'email' => 'tata@tata.com',
+    'role' => 'estudiante',
+    'password' => bcrypt('qwerty'),
+    
+]);*/  

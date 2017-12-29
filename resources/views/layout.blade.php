@@ -42,6 +42,11 @@
                                 <li class="{{activeMenu('mensajes*')}}">
                                     <a  href="{{ route('mensajes.index') }}">Mensajes</a>
                                 </li>
+                                @if (Auth::user()->hasRoles(['admin']))
+                                    <li class="{{activeMenu('usuarios*')}}">
+                                        <a  href="{{ route('usuarios.index') }}">Usuarios</a>
+                                    </li>
+                                @endif
                             @endif
                             
                         </ul>
