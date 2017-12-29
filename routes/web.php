@@ -22,6 +22,9 @@ Route::get('saludos/{nombre?}', ['as'=>'saludos', 'uses' => 'PagesController@sal
 Route::resource('mensajes', 'MessagesController');
 Route::resource('usuarios','UsersController');
 
+Route::get('roles', function(){
+    return \App\Role::with('user')->get();
+});
 
 // Route::get('mensajes',['as' => 'messages.index', 'uses' => 'MessagesController@index']);
 // Route::get('mensajes/create',['as' => 'messages.create', 'uses' => 'MessagesController@create']);
@@ -54,11 +57,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-
- /* App\User::create([
-    'name' => 'Tata',
-    'email' => 'tata@tata.com',
-    'role' => 'estudiante',
+/*
+App\User::create([
+    'name' => 'OtroAdmin',
+    'email' => 'diego@diego.com',
+    'role_id' => '1',
     'password' => bcrypt('qwerty'),
     
-]);*/  
+]); 
+App\User::create([
+    'name' => 'Moderador',
+    'email' => 'tata@tata.com',
+    'role_id' => '2',
+    'password' => bcrypt('qwerty'),
+    
+]);
+*/
