@@ -62,6 +62,9 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name}} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="/usuarios/{{auth()->id()}}/edit">Mi cuenta</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
                                         Cerrar Sesión
