@@ -28,9 +28,9 @@ class User extends Authenticatable
     ];
 
 
-    public function role()
+    public function roles()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsToMany(Role::class, 'assigned_roles');
     }
 
 
@@ -38,9 +38,12 @@ class User extends Authenticatable
     {
         foreach($roles as $role)
         {
-            if( $this->role->name === $role)
+            foreach($this->roles as $userRole)
             {
-                return true;
+                if( $userRole->name === $role)
+                {
+                    return true;
+                }
             }
         }
 
