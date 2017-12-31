@@ -36,18 +36,27 @@ class User extends Authenticatable
 
     public function hasRoles(array $roles)
     {
+        // (bool) sire para cambiar el resultado del metodo count a booleano
+        // pluck() regresa un array con la llave que se pasa por parametro 
+        // contains() verifica si la coleccion contiene el dato que se le pasa por parametro return true o false
+        // intersect()  verifica si existen coincidencia entre el array con el que se le pasa por parametro
+        
+        return (bool) $this->roles->pluck('name')->intersect($roles)->count();
+        /*
         foreach($roles as $role)
         {
-            foreach($this->roles as $userRole)
+            return $this->roles->pluck('name')->contains($role);
+              foreach($this->roles as $userRole)
             {
                 if( $userRole->name === $role)
                 {
                     return true;
                 }
-            }
+            }  
         }
+        */
 
-        return false;
+        
     }
     public function isAdmin()
     {
