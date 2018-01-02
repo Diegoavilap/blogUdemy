@@ -27,7 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
+    //Conmutador que sirve para definir un valor antes de guardarlo en DB
+    //Sirve para guardar siempre el password encriptado
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
@@ -71,5 +72,11 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+    
+    public function note()
+    {
+        //Se puede usar morphOne o morphMany
+        return $this->morphOne(Note::class,'notable');
     }
 }
