@@ -97,6 +97,7 @@ class MessagesController extends Controller
     {
         // $message = DB::table('messages')->where('id',$id)->first();
         $message = Message::findOrFail($id);
+        
         return view('messages.edit', compact('message'));
     }
 
