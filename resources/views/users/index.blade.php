@@ -11,6 +11,7 @@
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Note</th>
                 <th>Acciones</th>
 
             </tr>
@@ -27,6 +28,7 @@
                             {{ $role->display_name}} 
                         @endforeach  --}}
                     </td>
+                    <td>{{$user->note->body or ''}}</td>
                     <td>
                         <a class="btn btn-info btn-xs" href="{{route('usuarios.edit', $user->id) }}">
                         Editar
