@@ -1,6 +1,6 @@
 {!!csrf_field()!!}
 {{--  @unless significa que "A menos de que tenga la condición"  --}}
-@unless( isset($message) and $message->user_id)
+@if( $showFields)
     <div class="form-group">
         <label for="nombre">
             Nombre
@@ -17,7 +17,7 @@
             {!! $errors->first('email','<span class=error>:message</span>')!!}
         </label>
     </div>
-@endunless
+@endif
 <div class="form-group">
     <label for"mensaje"> 
         Mensaje

@@ -37,7 +37,7 @@
                             {{ $message->mensaje}}
                         </a>
                     </td>
-                    <td>{{$message->note->body or ''}}</td>
+                    <td>{{$message->note ? $message->note->body : ''}}</td>
                     <td> {{ $message->tags->pluck('name')->implode(' , ')}}</td>
                     <td>
                         <a class="btn btn-info btn-xs" href="{{route('mensajes.edit', $message->id) }}">

@@ -20,7 +20,10 @@ class MessagesController extends Controller
     public function index()
     {
         //$messages = DB::table('messages')->get();
-        $messages = Message::all();
+
+        //With con este metodo podemos traer los diferentes relaciones que tiene los objetos
+        //las relaciones que queremos traer se describen como un array
+        $messages = Message::with(['user','note','tags'])->get();
         return view('messages.index',compact('messages'));
     }
 

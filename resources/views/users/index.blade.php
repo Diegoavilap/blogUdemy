@@ -29,7 +29,7 @@
                             {{ $role->display_name}} 
                         @endforeach  --}}
                     </td>
-                    <td>{{$user->note->body or ''}}</td>
+                    <td>{{$user->note ? $user->note->body : ''}}</td>
                     <td>{{ $user->tags->pluck('name')->implode(' , ')}}  </td>
                     <td>
                         <a class="btn btn-info btn-xs" href="{{route('usuarios.edit', $user->id) }}">

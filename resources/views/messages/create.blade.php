@@ -7,7 +7,10 @@
         <h3>{{session('info')}} </h3>
     @else
         <form  method="POST" action="{{route('mensajes.store')}}"> 
-            @include('messages.form')
+            @include('messages.form',[
+                'message' => new App\Message,
+                'showFields' => auth()->guest()
+            ])
         </form>
     @endif
     <hr>
