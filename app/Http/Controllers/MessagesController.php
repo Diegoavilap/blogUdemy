@@ -7,6 +7,9 @@ use DB;
 use Mail;
 use Carbon\Carbon;
 use App\Message;
+use App\Events\MessageWasReceived;
+
+
 class MessagesController extends Controller
 {
     public function __construct()
@@ -62,27 +65,26 @@ class MessagesController extends Controller
         // $message->save();
 
         $message = Message::create($request->all());
-        /*
+        
         
         if(auth()->check())
         {
             auth()->user()->messages()->save($message);
         }
-        */
+        //Un evento es un DTO Data Transfer Object 
+        //Su unica funcion es transportar datos
+        event ( new MessageWasReceived($message));
 
         //auth()->user()->messages()->create($request->all());
 
-        $message->user_id = auth()->id();
-        $message->save();
+        //$message->user_id = auth()->id();
+        //$message->save();
         
         //Mail::send('vista',[], function($message){});
         // Para poder usar la variable $message dentro de la función se utiliza el "use"
-        Mail::send('emails.contact',['msg'=>$message], function($m) use ($message){
-            //Con la funcion to se especifica el email y el nombre a quien va dirijido el email
-            //Con la funcion subject se define el asunto
-            $m->to($message->email, $message->nombre)->subject('Tu mensaje fue recibido');
-        });
+        
         return redirect()->route('mensajes.create')->with('info','Hemos recibido tu mensaje');
+        
     }
 
     /**
