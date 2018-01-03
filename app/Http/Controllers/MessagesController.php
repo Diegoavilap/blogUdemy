@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Mail;
 use Carbon\Carbon;
 use App\Message;
 class MessagesController extends Controller
@@ -74,6 +75,13 @@ class MessagesController extends Controller
         $message->user_id = auth()->id();
         $message->save();
         
+        //Mail::send('vista',[], function($message){});
+        // Para poder usar la variable $message dentro de la función se utiliza el "use"
+        Mail::send('emails.contact',['msg'=>$message], function($m) use ($message){
+            //Con la funcion to se especifica el email y el nombre a quien va dirijido el email
+            //Con la funcion subject se define el asunto
+            $m->to($message->email, $message->nombre)->subject('Tu mensaje fue recibido');
+        });
         return redirect()->route('mensajes.create')->with('info','Hemos recibido tu mensaje');
     }
 
