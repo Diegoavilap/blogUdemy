@@ -52,6 +52,12 @@
                     
                 </tr>
             @endforeach
+            {!! $messages->fragment('hash')->appends(request()->query())->links('pagination::default')!!}
+            {{-- El metodo link() sirve para mostrar un menu de paginación --}}
+            {{-- funciona gracia a que en el controlador se usa paginate() o simplepaginate --}}
+            {{-- Links() acepta una vista como parametro --}}
+            {{-- fragment() permite que persistan los hashes a traves de la paginacion --}}
+            
         </tbody>
     </table>
 @stop

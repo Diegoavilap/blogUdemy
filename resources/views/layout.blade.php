@@ -85,7 +85,8 @@
         </header>
         <div class="container">
             @yield('contenido')
-            <footer> Copyright * {{date('Y')}}</footer>
+            <hr>
+            <footer> Copyright © {{date('Y')}}</footer>
         </div>
         <script src="/js/all.js"></script>
     </body>

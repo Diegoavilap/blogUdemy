@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Cache;
 use Mail;
 use Carbon\Carbon;
 use App\Message;
@@ -12,6 +13,7 @@ use App\Events\MessageWasReceived;
 
 class MessagesController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware('auth',['except' => ['create','store']]);
@@ -23,11 +25,31 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        //$messages = DB::table('messages')->get();
+        $key = "message.page." . request('page',1);
 
-        //With con este metodo podemos traer los diferentes relaciones que tiene los objetos
-        //las relaciones que queremos traer se describen como un array
-        $messages = Message::with(['user','note','tags'])->get();
+        $messages = Cache::rememberForever($key, function(){
+            
+            return Message::with(['user','note','tags'])
+                ->orderBy('created_at', request('sorted','DESC')) 
+                ->paginate(10);
+        });
+        /*
+        if( Cache::has($key))
+        {
+           $messages = Cache::get($key);
+        }
+        else
+        {
+            $messages = Message::with(['user','note','tags'])
+                ->orderBy('created_at', request('sorted','DESC')) //El segundo parametro de request es un valor por defecto
+                ->paginate(10);
+
+            Cache::put($key , $messages, 5);
+            //paginate() Pagina segun la cantidad que se le pase como parametro
+            //simplepaginate() muestra solo flechas atras y siguiente
+            //latest() sirve para ordenar los ultimos primero
+        }   
+        */ 
         return view('messages.index',compact('messages'));
     }
 
@@ -71,6 +93,9 @@ class MessagesController extends Controller
         {
             auth()->user()->messages()->save($message);
         }
+
+        Cache::flush();
+        
         //Un evento es un DTO Data Transfer Object 
         //Su unica funcion es transportar datos
         event ( new MessageWasReceived($message));
@@ -96,7 +121,11 @@ class MessagesController extends Controller
     public function show($id)
     {
         // $message = DB::table('messages')->where('id',$id)->first();
-        $message = Message::findOrFail($id);
+
+        $message = Cache::rememberForever("messages.{$id}", function() use ($id){
+            return  Message::findOrFail($id);
+        });
+
         return view('messages.show', compact('message'));
     }
 
@@ -109,7 +138,9 @@ class MessagesController extends Controller
     public function edit($id)
     {
         // $message = DB::table('messages')->where('id',$id)->first();
-        $message = Message::findOrFail($id);
+        $message = Cache::rememberForever("messages.{$id}", function() use ($id){
+            return  Message::findOrFail($id);
+        });
         
         return view('messages.edit', compact('message'));
     }
@@ -132,6 +163,7 @@ class MessagesController extends Controller
         //     'updated_at' => Carbon::now()
         // ]);
         $message = Message::findOrFail($id)->update($request->all());
+        Cache::flush();
         return redirect()->route('mensajes.index');
     }
 
@@ -145,6 +177,7 @@ class MessagesController extends Controller
     {
         // DB::table('messages')->where('id',$id)->delete();
         $message = Message::findOrFail($id)->delete();
+        Cache::flush();
         return redirect()->route('mensajes.index');
     }
 }

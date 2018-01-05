@@ -21,6 +21,9 @@ class SendAutoResponder
     {
         
         $message = $event->message;
+        if(auth()->check()){
+            $message->email = auth()->user()->email;
+        }
         Mail::send('emails.contact',['msg'=>$message], function($m) use ($message){
             //Con la funcion to se especifica el email y el nombre a quien va dirijido el email
             //Con la funcion subject se define el asunto
