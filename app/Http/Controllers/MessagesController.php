@@ -6,7 +6,10 @@ use Cache;
 use App\Message;
 use Illuminate\Http\Request;
 use App\Repositories\Messages;
+use App\Repositories\CacheMessages;
+use App\Repositories\MessagesInterface;
 use App\Events\MessageWasReceived;
+use App\Http\Requests\CreateMessageRequest;
 
     // La responsabilidad de un controlador es 
     //Recibir una petición
@@ -16,7 +19,7 @@ class MessagesController extends Controller
 {
     protected $messages;
 
-    public function __construct(Messages $messages)
+    public function __construct(MessagesInterface $messages)
     {
         $this->messages = $messages;
         $this->middleware('auth',['except' => ['create','store']]);
