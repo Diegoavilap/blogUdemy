@@ -6,9 +6,9 @@ use Cache;
 use App\Message;
 use Illuminate\Http\Request;
 use App\Repositories\Messages;
+use App\Events\MessageWasReceived;
 use App\Repositories\CacheMessages;
 use App\Repositories\MessagesInterface;
-use App\Events\MessageWasReceived;
 use App\Http\Requests\CreateMessageRequest;
 
     // La responsabilidad de un controlador es 

@@ -6,7 +6,7 @@
     //$query->time el tiempo en en milisengundos que tarda cada consulta
     
 DB::listen(function($query){
-    echo "<pre>{{$query->sql}}</pre>";
+   // echo "<pre>{{$query->sql}}</pre>";
 });
     
 

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Presenters\MessagePresenter;
 
 class Message extends Model
 {
@@ -10,6 +11,7 @@ class Message extends Model
 
     protected $fillable  = ['nombre', 'email', 'mensaje'];
 
+       
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -25,5 +27,9 @@ class Message extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
    
+    public function present()
+    {
+        return new MessagePresenter($this);
+    }
     
 }
